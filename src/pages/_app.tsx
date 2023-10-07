@@ -6,7 +6,7 @@ import {
   studioProvider,
 } from '@livepeer/react';
 import * as React from 'react';
-import '@/styles/globals.css'
+import '@app/styles/globals.css'
 import type { AppProps } from 'next/app'
 import LiveStream from './streams/watch';
 
