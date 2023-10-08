@@ -8,7 +8,6 @@ import {
 import * as React from 'react';
 import '@app/styles/globals.css'
 import type { AppProps } from 'next/app'
-import LiveStream from './streams/watch';
 
 
 const livepeerClient = createReactClient({
@@ -21,7 +20,6 @@ const livepeerClient = createReactClient({
 
 export default function App({ Component, pageProps }: AppProps) {
   return <LivepeerConfig client={livepeerClient}>
-    <LiveStream streamUrl='' />
     <Component {...pageProps} />
   </LivepeerConfig>
 }
