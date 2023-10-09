@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Player, useCreateStream } from '@livepeer/react';
-import { DemoBroadcast } from './broadcast';
+import { DemoBroadcast } from './streams/broadcast';
 
 interface LiveStreamProps {
 	streamUrl: string;
@@ -36,7 +36,7 @@ const LiveStream: React.FC<LiveStreamProps> = ({ streamUrl }) => {
 
 					<div style={{ marginBottom: '1em', width: '100%', display: 'flex', alignContent: 'center', justifyContent: 'center', flexDirection: 'column' }}>
 						<input
-							style={{ marginBottom: '1em', width: '10%', display: 'flex', alignContent: 'center', justifyContent: 'center' }}
+							style={{ marginBottom: '1em', width: '10%', display: 'flex', alignContent: 'center', justifyContent: 'center', color: 'black' }}
 							type="text"
 							placeholder="Stream name"
 							onChange={(e) => setStreamName(e.target.value)}
@@ -54,21 +54,21 @@ const LiveStream: React.FC<LiveStreamProps> = ({ streamUrl }) => {
 									Create Stream
 								</button>
 							)}
-							<DemoBroadcast streamKey={
+							{/* <DemoBroadcast streamKey={
 								stream?.streamKey || ''
-							} />
+							} /> */}
 						</div>
-						{/* <Player
+						<Player
               title={stream?.name}
               playbackId={stream?.playbackId || ''}
               autoPlay
               muted
-            /> */}
+            />
 					</div>
 				)
 			}
 			{
-				view === 'watch' && (
+				view === 'watch' && stream?.streamKey && (
 					<DemoBroadcast streamKey={
 						stream?.streamKey || ''
 					} />

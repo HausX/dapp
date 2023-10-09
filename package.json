@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@livepeer/react": "^2.8.8",
+    "@tableland/sdk": "^4.5.3-dev.0",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18"
