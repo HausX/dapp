@@ -25,3 +25,7 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+html body {
+  font-family: "consolas", "courier new", "monospace";
+}
