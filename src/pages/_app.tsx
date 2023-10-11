@@ -6,7 +6,7 @@ import {
   studioProvider,
 } from "@livepeer/react";
 import * as React from "react";
-import "@app/styles/globals.css";
+import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import {
@@ -18,6 +18,7 @@ import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { sepolia, polygonMumbai } from "wagmi/chains";
 import "@rainbow-me/rainbowkit/styles.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const livepeerClient = createReactClient({
   provider: studioProvider({
@@ -65,7 +66,14 @@ export default function App({ Component, pageProps }: AppProps) {
             })}
           >
             <LivepeerConfig client={livepeerClient}>
-              <Component {...pageProps} />
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <Component {...pageProps} />
+              </ThemeProvider>
             </LivepeerConfig>{" "}
           </RainbowKitProvider>
         </WagmiConfig>

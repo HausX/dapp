@@ -6,10 +6,12 @@ import { useRouter } from "next/router";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import Footer from "./Footer";
+import { ModeToggle } from "./DarkModeToggle";
 
 const navigation = [
-  { name: "Home", href: "/home" },
-  { name: "Market", href: "/market" },
+  { name: "Home", href: "/" },
+  { name: "Create Event", href: "/streams/create" },
+  { name: "Event Market", href: "/market" },
   { name: "Event Room", href: "/event-room" },
 ];
 
@@ -85,6 +87,7 @@ export default function Layout({ children }: Props) {
                     <div className="flex items-center space-x-3">
                       <ConnectButton />
                     </div>
+                    <ModeToggle />
                   </div>
                 </div>
               </>
