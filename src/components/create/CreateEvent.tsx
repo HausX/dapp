@@ -10,14 +10,11 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "./ui/form"
-import { Input } from "./ui/input"
-import { Button } from './ui/button';
-import { Toggle } from './ui/toggle';
-
-const MAX_FILE_SIZE = 500000;
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-const STREAM_LABELS = ['comedy', 'visual art', 'performance art', 'slam poetry', 'open mic/improv', 'creative workshop']
+} from "../ui/form"
+import { Input } from "../ui/input"
+import { Button } from '../ui/button';
+import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE, STREAM_LABELS } from './data';
+import { Checkbox } from '../ui/checkbox';
 
 const formSchema = z.object({
 	title: z.string().min(2, {
@@ -33,7 +30,9 @@ const formSchema = z.object({
 			(file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
 			"Only .jpg, .jpeg, .png and .webp formats are supported."
 		),
-	labels: z.string().array().nonempty()
+	labels: z.array(z.string()).refine((value) => value.some((label) => label), {
+		message: "You have to select at least one label.",
+	}),
 })
 
 const CreateEvent = () => {
@@ -43,6 +42,7 @@ const CreateEvent = () => {
 			title: "",
 			description: "",
 			banner: "",
+			labels: ['visual art']
 		},
 	})
 	const { register, handleSubmit, formState: { errors } } = useForm();
@@ -125,12 +125,44 @@ const CreateEvent = () => {
 						<FormField
 							control={form.control}
 							name="labels"
-							render={({ field }) => (
-								<FormItem>
+							render={() => (
+								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
 									<FormLabel>Add Labels</FormLabel>
-									<FormControl>
-										<Input type='text' placeholder="Add labels" {...field} />
-									</FormControl>
+									<FormItem>
+										{STREAM_LABELS.map((label) => (
+											<FormField
+												key={label.id}
+												control={form.control}
+												name="labels"
+												render={({ field }) => {
+													return (
+														<FormItem
+															key={label.id}
+															className="flex flex-row items-start space-x-3 space-y-0"
+														>
+															<FormControl>
+																<Checkbox
+																	checked={field.value?.includes(label.id)}
+																	onCheckedChange={(checked) => {
+																		return checked
+																			? field.onChange([...field.value, label.id])
+																			: field.onChange(
+																				field.value?.filter(
+																					(value) => value !== label.id
+																				)
+																			)
+																	}}
+																/>
+															</FormControl>
+															<FormLabel className="font-normal">
+																{label.title}
+															</FormLabel>
+														</FormItem>
+													)
+												}}
+											/>
+										))}
+									</FormItem>
 									<FormDescription>
 										Select the labels you wish to add to your stream.
 									</FormDescription>

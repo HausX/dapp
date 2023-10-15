@@ -1,4 +1,4 @@
-import CreateEvent from "@/components/CreateEvent";
+import CreateEvent from "@/components/create/CreateEvent";
 import Layout from "@/components/Layout";
 
 export default function CreateStream() {
