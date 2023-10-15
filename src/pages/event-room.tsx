@@ -1,5 +1,6 @@
 import Layout from "../components/Layout";
-import { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Hls from "hls.js";
 
 interface ChatMessage {
   user: string;
@@ -56,6 +57,20 @@ const ChatBox: React.FC<ChatBoxProps> = ({ messages, onSendMessage }) => {
 };
 
 export default function EventRoom() {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const video: any = videoRef.current;
+    const videoSrc = "/hls/test.m3u8";
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(videoSrc);
+      hls.attachMedia(video);
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = videoSrc;
+    }
+  }, []);
+
   return (
     <Layout>
       <main
@@ -65,7 +80,11 @@ export default function EventRoom() {
           {/* Left Section - Video Player */}
           <div className="lg:w-3/4 mr-4 mb-4 lg:mb-0">
             {/* Insert your video player component here */}
-            <video className="w-full h-[420px] rounded-lg shadow" controls>
+            <video
+              ref={videoRef}
+              className="w-full h-[420px] rounded-lg shadow"
+              controls
+            >
               <source src="your-video-source.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
