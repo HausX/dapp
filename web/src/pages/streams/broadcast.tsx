@@ -11,7 +11,7 @@ interface BroadcastProps {
   streamKey: string;
 }
 
-export const DemoBroadcast: React.FC<BroadcastProps> = ({ streamKey })  => {
+const DemoBroadcast: React.FC<BroadcastProps> = ({ streamKey })  => {
   const [muted, setMuted] = useState(false);
   console.log('stream key', streamKey)
   const onPlaybackStatusUpdate = useCallback(
@@ -32,3 +32,5 @@ export const DemoBroadcast: React.FC<BroadcastProps> = ({ streamKey })  => {
     />
   );
 };
+
+export default DemoBroadcast;

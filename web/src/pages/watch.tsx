@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Player, useCreateStream } from '@livepeer/react';
-import { DemoBroadcast } from './streams/broadcast';
+import DemoBroadcast from './streams/broadcast';
 
 interface LiveStreamProps {
 	streamUrl: string;
