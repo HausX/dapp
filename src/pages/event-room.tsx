@@ -1,5 +1,6 @@
 import Layout from "../components/Layout";
 import { useState } from "react";
+import { useAccountAbstraction } from "../store/accountAbstractionContext";
 
 interface ChatMessage {
   user: string;
@@ -13,46 +14,52 @@ interface ChatBoxProps {
 
 const ChatBox: React.FC<ChatBoxProps> = ({ messages, onSendMessage }) => {
   const [message, setMessage] = useState("");
+  const { web3Provider } = useAccountAbstraction();
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (message.trim() !== "") {
+      const signer = web3Provider.getSigner();
+      await signer.signMessage(message).then((signedMessage) => {
+        console.log("Signed Message: ", signer);
+      });
       onSendMessage(message);
       setMessage("");
     }
   };
 
-  return (
-    <div className="h-64 bg-zinc-800 rounded-lg shadow p-4 mb-8">
-      <div className="overflow-y-auto h-full">
-        {messages.map((msg, index) => (
-          <div key={index} className="flex flex-col mb-2">
-            <span className="text-gray-600 font-bold">{msg.user}</span>
-            <span className="text-gray-800">{msg.message}</span>
-          </div>
-        ))}
+  if (web3Provider)
+    return (
+      <div className="h-64 bg-zinc-800 rounded-lg shadow p-4 mb-8">
+        <div className="overflow-y-auto h-full">
+          {messages.map((msg, index) => (
+            <div key={index} className="flex flex-col mb-2">
+              <span className="text-gray-600 font-bold">{msg.user}</span>
+              <span className="text-gray-800">{msg.message}</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-between text-sm w-full">
+          <input
+            type="text"
+            placeholder="Type your message here..."
+            className="w-full px-2 py-1 rounded-lg border text-black border-gray-400 focus:outline-none focus:border-blue-500"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                handleSendMessage();
+              }
+            }}
+          />
+          <button
+            className="bg-zinc-500 hover:bg-zinc-600 text-white px-4 py-2 rounded-lg ml-2"
+            onClick={handleSendMessage}
+          >
+            Send
+          </button>
+        </div>
       </div>
-      <div className="flex justify-between text-sm w-full">
-        <input
-          type="text"
-          placeholder="Type your message here..."
-          className="w-full px-2 py-1 rounded-lg border border-gray-400 focus:outline-none focus:border-blue-500"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              handleSendMessage();
-            }
-          }}
-        />
-        <button
-          className="bg-zinc-500 hover:bg-zinc-600 text-white px-4 py-2 rounded-lg ml-2"
-          onClick={handleSendMessage}
-        >
-          Send
-        </button>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default function EventRoom() {

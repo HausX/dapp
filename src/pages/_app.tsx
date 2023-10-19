@@ -18,6 +18,13 @@ import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import { sepolia, polygonMumbai } from "wagmi/chains";
 import "@rainbow-me/rainbowkit/styles.css";
+import "@safe-global/safe-react-components/dist/fonts.css";
+
+import Header from "../components/header/Header";
+import Providers from "../components/providers/Providers";
+import SafeCoreInfo from "../components/safe-core-info/SafeCoreInfo";
+import { useAccountAbstraction } from "../store/accountAbstractionContext";
+import isMoneriumRedirect from "../utils/isMoneriumRedirect";
 
 const livepeerClient = createReactClient({
   provider: studioProvider({
@@ -30,22 +37,22 @@ const livepeerClient = createReactClient({
 export default function App({ Component, pageProps }: AppProps) {
   const [ready, setReady] = useState(false);
 
-  const { publicClient, chains } = configureChains(
-    [sepolia, polygonMumbai],
-    [publicProvider()]
-  );
+  const { setChainId } = useAccountAbstraction();
+  useEffect(() => {
+    if (isMoneriumRedirect()) {
+    }
+  }, [setChainId]);
 
-  const { connectors } = getDefaultWallets({
-    appName: "",
-    projectId: "2588db3d04914636093b01d564610991",
-    chains,
-  });
+  // const { publicClient, chains, webSocketPublicClient } = configureChains(
+  //   [polygonMumbai],
+  //   [publicProvider()]
+  // );
 
-  const wagmiConfig = createConfig({
-    autoConnect: true,
-    connectors,
-    publicClient,
-  });
+  // const wagmiConfig = createConfig({
+  //   autoConnect: true,
+  //   connectors,
+  //   publicClient,
+  // });
 
   useEffect(() => {
     setReady(true);
@@ -53,22 +60,25 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       {ready ? (
-        <WagmiConfig config={wagmiConfig}>
-          <RainbowKitProvider
-            chains={chains}
-            theme={lightTheme({
-              accentColor: "#383838",
-              accentColorForeground: "white",
-              borderRadius: "medium",
-              fontStack: "system",
-              overlayBlur: "small",
-            })}
-          >
-            <LivepeerConfig client={livepeerClient}>
-              <Component {...pageProps} />
-            </LivepeerConfig>{" "}
-          </RainbowKitProvider>
-        </WagmiConfig>
+        <LivepeerConfig client={livepeerClient}>
+          {/* <WagmiConfig config={wagmiConfig}>
+            <RainbowKitProvider
+              chains={chains}
+              theme={lightTheme({
+                accentColor: "#383838",
+                accentColorForeground: "white",
+                borderRadius: "medium",
+                fontStack: "system",
+                overlayBlur: "small",
+              })}
+            >  
+            
+            </RainbowKitProvider>
+          </WagmiConfig> */}
+          <Providers>
+            <Component {...pageProps} />
+          </Providers>
+        </LivepeerConfig>
       ) : null}
     </>
   );
