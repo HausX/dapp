@@ -36,7 +36,7 @@ const eventFormSchema = z.object({
 	}),
 	banner: typeof window === "undefined" // this is required if your app rendered in server side, otherwise just remove the ternary condition
 		? z.undefined()
-		: z.instanceof(FileList)
+		: z.any()
 			.refine((files) => files?.[0]?.size || 0 >= MAX_FILE_SIZE, `Max file size is 5MB.`)
 			.refine(
 				(files) => checkFileType(files),
@@ -90,7 +90,7 @@ const CreateEvent = ({ onNextStep, onPreviousStep, currentStep }: StepperNavProp
 		defaultValues: {
 			title: "",
 			description: "",
-			banner: bannerImage as FileList,
+			banner: bannerImage,
 			labels: [],
 			duration: undefined,
 			date: undefined,
@@ -154,11 +154,11 @@ const CreateEvent = ({ onNextStep, onPreviousStep, currentStep }: StepperNavProp
 							name="banner"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Cover Image</FormLabel>
+									<FormLabel>Banner</FormLabel>
 									<FormControl>
-										<Input type='file' accept='image/jpeg, image/jpg, image/png, image/webp' onChange={(e) => {
-											field.onChange(e.target.files ? e.target.files[0] : null);
+										<Input type='file' accept='image/jpeg, image/jpg, image/png, image/webp' {...field} onChange={(e) => {
 											onBannerChange(e)
+											field.onChange(e.target.files ? e.target.files[0] : null);
 										}} />
 									</FormControl>
 									<FormDescription>
@@ -210,7 +210,7 @@ const CreateEvent = ({ onNextStep, onPreviousStep, currentStep }: StepperNavProp
 																	}}
 																/>
 															</FormControl>
-															<FormLabel className="font-normal">
+															<FormLabel className="font-normal capitalize">
 																{label.title}
 															</FormLabel>
 														</FormItem>
@@ -413,7 +413,7 @@ const CreateEvent = ({ onNextStep, onPreviousStep, currentStep }: StepperNavProp
 								render={({ field }) => {
 									return (
 										<FormItem
-											className="flex flex-row items-start space-x-3 space-y-0"
+											className="flex flex-row items-center space-x-3 space-y-0"
 										>
 											<FormControl>
 												<Checkbox
@@ -432,10 +432,23 @@ const CreateEvent = ({ onNextStep, onPreviousStep, currentStep }: StepperNavProp
 						<div className="flex items-center gap-6">
 							<FormField
 								control={form.control}
+								name="custom_ticket_price"
+								render={() => (
+									<FormItem>
+										<FormLabel>Ticket Price</FormLabel>
+										<FormControl>
+											<Input className='w-14' type='number' placeholder="00" {...form.register("custom_ticket_price")} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
 								name="ticket_price"
 								render={({ field }) => {
 									return (
-										<FormItem className="flex flex-row items-start space-x-3 space-y-0">
+										<FormItem className="flex flex-row items-center space-x-3 space-y-0">
 											<FormControl>
 												<Checkbox
 													checked={field.value}
@@ -448,19 +461,6 @@ const CreateEvent = ({ onNextStep, onPreviousStep, currentStep }: StepperNavProp
 										</FormItem>
 									)
 								}}
-							/>
-							<FormField
-								control={form.control}
-								name="custom_ticket_price"
-								render={() => (
-									<FormItem>
-										<FormLabel>Custom Matic</FormLabel>
-										<FormControl>
-											<Input className='w-14' type='number' placeholder="00" {...form.register("custom_ticket_price")} />
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
 							/>
 						</div>
 						<div className="space-x-4">
