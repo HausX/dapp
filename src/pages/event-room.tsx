@@ -1,7 +1,7 @@
 import Layout from "../components/Layout";
 import { useState } from "react";
 import { useAccountAbstraction } from "../store/accountAbstractionContext";
-
+import RelayerKitDemo from "@app/components/RelayerKit";
 interface ChatMessage {
   user: string;
   message: string;
@@ -99,6 +99,8 @@ export default function EventRoom() {
               messages={[]}
               onSendMessage={(message) => console.log(message)}
             />
+
+            <RelayerKitDemo />
 
             <div className="bg-zinc-800 rounded-lg shadow p-4 mb-4">
               {/* Insert your chat component here */}

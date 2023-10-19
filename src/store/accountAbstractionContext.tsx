@@ -26,6 +26,8 @@ import Chain from "../models/chain";
 import getChain from "../utils/getChain";
 import getMoneriumInfo, { MoneriumInfo } from "../utils/getMoneriumInfo";
 import isMoneriumRedirect from "../utils/isMoneriumRedirect";
+import { setMaxListeners } from "events";
+import { selectClasses } from "@mui/material";
 
 type accountAbstractionContextValue = {
   ownerAddress?: string;
@@ -233,27 +235,28 @@ const AccountAbstractionProvider = ({
       if (!web3Provider || !safeSelected) return;
 
       const safeOwner = web3Provider.getSigner();
+
       const ethAdapter = new EthersAdapter({
         ethers,
         signerOrProvider: safeOwner,
       });
 
-      // const safeSdk = await Safe.create({
-      //   ethAdapter: ethAdapter,
-      //   safeAddress: safeSelected,
-      //   // isL1SafeMasterCopy: true,
-      // });
+      const safeSdk = await Safe.create({
+        ethAdapter: ethAdapter,
+        safeAddress: "0x41675C099F32341bf84BFc5382aF534df5C7461a",
+        isL1SafeMasterCopy: true,
+      });
 
-      // const pack = new MoneriumPack({
-      //   clientId: process.env.REACT_APP_MONERIUM_CLIENT_ID || "",
-      //   environment: "sandbox",
-      // });
+      const pack = new MoneriumPack({
+        clientId: process.env.REACT_APP_MONERIUM_CLIENT_ID || "",
+        environment: "sandbox",
+      });
 
-      // await pack.init({
-      //   safeSdk,
-      // });
+      await pack.init({
+        safeSdk,
+      });
 
-      // setMoneriumPack(pack);
+      setMoneriumPack(pack);
     })();
   }, [web3Provider, safeSelected]);
 
@@ -320,6 +323,8 @@ const AccountAbstractionProvider = ({
         const safeSelected = hasSafes
           ? safes[0]
           : await safeAccountAbstraction.getSafeAddress();
+
+        console.log("safeSelected: ", safeSelected);
 
         setSafeSelected(safeSelected);
       }
