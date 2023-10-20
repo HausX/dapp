@@ -1,7 +1,7 @@
 import Layout from "../components/Layout";
 import { useState } from "react";
 import { useAccountAbstraction } from "../store/accountAbstractionContext";
-import RelayerKitDemo from "@app/components/RelayerKit";
+import RelayerKitDemo from "@/components/RelayerKit";
 interface ChatMessage {
   user: string;
   message: string;
