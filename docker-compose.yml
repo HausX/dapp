@@ -17,3 +17,17 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+
+  file-watcher:
+    build:
+      context: ./file-watcher
+      dockerfile: Dockerfile
+      args: 
+        - LIGHTHOUSE_API_KEY=${LIGHTHOUSE_API_KEY}
+    ports:
+      - "4000:4000" # Expose the API port
+    environment: 
+      - LIGHTHOUSE_API_KEY=${LIGHTHOUSE_API_KEY}
+    volumes:
+      - ./nginx/hls:/hls
+      - ./db:/usr/src/app/db

@@ -1,0 +1,12 @@
+*/node_modules/
+node_modules/
+
+ipfs-config/
+
+lighthouseinfo.txt
+
+
+.env
+
+# sql db
+db/
