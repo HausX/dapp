@@ -1,19 +1,12 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { Disclosure } from "@headlessui/react";
 import Image from "next/image";
-// import Link from "next/link";
 import { useRouter } from "next/router";
 import SafeInfo from "../components/safe-info/SafeInfo";
 
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 
 import ConnectedWalletLabel from "./connected-wallet-label/ConnectedWalletLabel";
-import SafeAccount from "./safe-account/SafeAccount";
-import { ConnectContainer, ConnectedContainer } from "./styles";
 import { useAccountAbstraction } from "../store/accountAbstractionContext";
 import ChainSelector from "../components/chain-selector/ChainSelector";
 
@@ -24,7 +17,6 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 const navigation = [
-  { name: "Home", href: "/" },
   { name: "Create Event", href: "/streams/create" },
   { name: "Event Market", href: "/streams/market" },
   { name: "Event Room", href: "/event-room" },
@@ -38,12 +30,6 @@ export default function Layout({ children }: Props) {
     useAccountAbstraction();
 
   const router = useRouter();
-
-  useEffect(() => {
-    // if (address) {
-    //   router.push("/home");
-    // }
-  }, []);
 
   return (
     <>
@@ -62,7 +48,10 @@ export default function Layout({ children }: Props) {
                 <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
                   <div className="relative flex h-24 items-center justify-between">
                     <div className="flex items-center px-2 lg:px-0">
-                      <div className="flex-shrink-0 flex items-center gap-x-3">
+                      <Link
+                        href="/"
+                        className="flex-shrink-0 flex items-center gap-x-3"
+                      >
                         <Image
                           className="h-14 w-auto"
                           height={512}
@@ -71,12 +60,12 @@ export default function Layout({ children }: Props) {
                           alt="Fabbrica0x"
                         />
                         <div className="font-black text-white text-3xl tracking-wide">
-                          RealityHaus
+                          Haus
                           <div className="font-medium text-zinc-400 text-xs">
                             By frens
                           </div>
                         </div>
-                      </div>
+                      </Link>
                       <div className="hidden lg:ml-10 lg:block">
                         <div className="flex space-x-4">
                           {navigation.map((item) => (

@@ -1,6 +1,6 @@
 import Layout from "../components/Layout";
 import { useState } from "react";
-import Video from "@app/components/Video";
+import Video from "../components/Video";
 import { useAccountAbstraction } from "../store/accountAbstractionContext";
 import RelayerKitDemo from "@/components/RelayerKit";
 interface ChatMessage {
@@ -70,13 +70,12 @@ export default function EventRoom() {
     responsive: true,
     fluid: true,
     sources: [
-        {
-            src: "http://localhost:8080/mystream.m3u8", // HLS URL
-            type: "application/x-mpegURL",
-        },
+      {
+        src: "http://localhost:8080/mystream.m3u8", // HLS URL
+        type: "application/x-mpegURL",
+      },
     ],
-};
-
+  };
 
   return (
     <Layout>
