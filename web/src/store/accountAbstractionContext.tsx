@@ -90,7 +90,7 @@ const AccountAbstractionProvider = ({
   children,
 }: {
   children: JSX.Element;
-  vb;
+  vb?: any;
 }) => {
   // owner address from the email  (provided by web3Auth)
   const [ownerAddress, setOwnerAddress] = useState<string>("");

@@ -1,5 +1,6 @@
 import Layout from "../components/Layout";
 import { useState } from "react";
+import Video from "@app/components/Video";
 import { useAccountAbstraction } from "../store/accountAbstractionContext";
 import RelayerKitDemo from "@/components/RelayerKit";
 interface ChatMessage {
@@ -63,6 +64,20 @@ const ChatBox: React.FC<ChatBoxProps> = ({ messages, onSendMessage }) => {
 };
 
 export default function EventRoom() {
+  const videoJsOptions = {
+    autoplay: true,
+    controls: true,
+    responsive: true,
+    fluid: true,
+    sources: [
+        {
+            src: "http://localhost:8080/mystream.m3u8", // HLS URL
+            type: "application/x-mpegURL",
+        },
+    ],
+};
+
+
   return (
     <Layout>
       <main
@@ -72,10 +87,7 @@ export default function EventRoom() {
           {/* Left Section - Video Player */}
           <div className="lg:w-3/4 mr-4 mb-4 lg:mb-0">
             {/* Insert your video player component here */}
-            <video className="w-full h-[420px] rounded-lg shadow" controls>
-              <source src="your-video-source.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            <Video options={videoJsOptions} />
             {/* Video Details */}
             <div className="mt-4">
               <h2 className="text-xl font-semibold">Event Name</h2>

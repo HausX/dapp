@@ -1,0 +1,33 @@
+version: '3'
+services:
+  nginx-rtmp:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "1935:1935"
+      - "8080:80"
+    volumes:
+      - ./nginx:/etc/nginx
+      - ./nginx/hls:/mnt/hls
+
+  next-app:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
+  file-watcher:
+    build:
+      context: ./file-watcher
+      dockerfile: Dockerfile
+      args: 
+        - LIGHTHOUSE_API_KEY=${LIGHTHOUSE_API_KEY}
+    ports:
+      - "4000:4000" # Expose the API port
+    environment: 
+      - LIGHTHOUSE_API_KEY=${LIGHTHOUSE_API_KEY}
+    volumes:
+      - ./nginx/hls:/hls
+      - ./db:/usr/src/app/db

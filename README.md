@@ -1,40 +1,90 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# before running locally
+Creating a .env file with:
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+LIGHTHOUSE_API_KEY=<key>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To get this key, use the lighthouse cli (docs: https://docs.lighthouse.storage/lighthouse-1/)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```
+lighthouse-web3 create-wallet    
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```
+lighthouse-web3 api-key --new   
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+We're just using testnet in the `file-watcher/watcher.ts` but still worth keeping api keys secure.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+# running locally
 
-## Learn More
+```docker-compose up --build```
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## validate ipfs
+you can grab the hash from the console log and replace `insert_cid` in the following command to see that we're actually uploading to lighthouse ipfs.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
+curl https://api.lighthouse.storage/api/lighthouse/get_proof\?cid\=<insert_cid>\&network\=testnet
+```
 
-## Deploy on Vercel
+## API
+To assign a wallet owner to the chunk id, use the following request. You can replace `mystream-2.ts` with the actual chunk id and `your_wallet_address` with the owner
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+curl -X POST http://localhost:4000/assignWallet \
+-H "Content-Type: application/json" \
+-d '{"chunkId": "mystream-2.ts", "wallet": "your_wallet_address"}'
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+To retrive all chunks that belong to a wallet address, use the following request
+
+```
+curl "http://localhost:4000/getHash?wallet=your_wallet_address"
+```
+
+Note this is not a secure implementation yet. Just a proof of concept
+
+
+## other useful testing commands
+
+You'll see a `db/vidoes.db` file created when running `docker-compose up --build`. To inspect it, use the sqlite3 cli:
+
+```
+sqlite3 videos.db
+```
+
+Then 
+
+```
+.tables
+```
+
+```
+SELECT * FROM videos;
+```
+
+And you'll see the stored video chunks, the cid, and the assigned wallet if one exists. It's useful for debugging if you add new api/sotrage features but hopefully you just need the API.
+
+## OBS setup
+
+Under settings -> stream:
+
+Server: `rtmp://localhost:1935/live`
+
+Stream Key: `mystream` (note this can and should be changed down the line to id different streams, each stream should be unique for database purposes but since it's only a proof-of-concept, we keep it simple with mystream hardcoded throughout)
+
+## nginx/hls
+
+You'll see the chunks appear in this folder for validation
+
+# Deployment
+
+I would deploy this using a docker VM. Digital Ocean has them for cheap and then you could just clone this repo and run the command `docker-compose up --build`, then expose the ports in the settings. There might be a CORS issue that we could easily resolve with the API. 
+
+# Future work
+
+- Delete the docker folder, not sure we need it but it was always there so I just kept it. 
+- Add security and potentially ownership and encryption to ipfs storage from the onset (not needed for proof-of-concept imo)
