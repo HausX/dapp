@@ -22,7 +22,7 @@ import {
 
 import { initialChain } from "../chains/chains";
 import usePolling from "../hooks/usePolling";
-import Chain from "../models/chain";
+import Chain from "../model/chain";
 import getChain from "../utils/getChain";
 
 type accountAbstractionContextValue = {
