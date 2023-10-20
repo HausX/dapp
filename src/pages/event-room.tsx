@@ -18,8 +18,8 @@ const ChatBox: React.FC<ChatBoxProps> = ({ messages, onSendMessage }) => {
 
   const handleSendMessage = async () => {
     if (message.trim() !== "") {
-      const signer = web3Provider.getSigner();
-      await signer.signMessage(message).then((signedMessage) => {
+      const signer = web3Provider?.getSigner();
+      await signer?.signMessage(message).then((signedMessage) => {
         console.log("Signed Message: ", signer);
       });
       onSendMessage(message);

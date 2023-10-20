@@ -26,7 +26,7 @@ import Link from "next/link";
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Create Event", href: "/streams/create" },
-  { name: "Event Market", href: "/market" },
+  { name: "Event Market", href: "/streams/market" },
   { name: "Event Room", href: "/event-room" },
 ];
 interface Props {
