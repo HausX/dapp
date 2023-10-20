@@ -61,12 +61,13 @@ export async function addReaction(
   };
 
   const xmtpConversation = await getXMTPConversation(client, conversation);
-  await xmtpConversation.send(reaction, {
+  let sendOptions: any = {
     contentType: ContentTypeReaction,
     contentFallback: `${shortAddress(client.address)} reacted ${getReactionTo(
       message
     )}with ${reaction.content}`,
-  });
+  };
+  await xmtpConversation.send(reaction, sendOptions);
 }
 
 export async function removeReaction(
@@ -104,12 +105,13 @@ export async function removeReaction(
   };
 
   const xmtpConversation = await getXMTPConversation(client, conversation);
-  await xmtpConversation.send(reaction, {
+  let sendOptions: any = {
     contentType: ContentTypeReaction,
     contentFallback: `${shortAddress(client.address)} unreacted ${getReactionTo(
       message
     )}with ${reaction.content}`,
-  });
+  };
+  await xmtpConversation.send(reaction, sendOptions);
 }
 
 export async function deleteReaction(reaction: MessageReaction) {

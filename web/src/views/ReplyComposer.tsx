@@ -1,7 +1,6 @@
 import { FormEvent, ReactElement, createRef, useRef } from "react";
 import { Message } from "../model/db";
-import { shortAddress } from "../util/shortAddress";
-import Button from "../components/Button";
+import { shortAddress } from "../utils/shortAddress";
 import { sendMessage } from "../model/messages";
 import { ContentTypeReply, Reply } from "@xmtp/content-type-reply";
 import { ContentTypeText } from "@xmtp/xmtp-js";
@@ -64,9 +63,9 @@ export default function ReplyComposer({
           )}`}
         />
 
-        <Button type="submit" color="primary" size="sm">
+        <button type="submit" className="text-xs text-blue-600 bg-primary-100">
           Reply
-        </Button>
+        </button>
         <button onClick={() => dismiss()} className="text-xs text-gray-500">
           Cancel
         </button>

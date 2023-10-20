@@ -1,7 +1,5 @@
 import { FormEvent, ReactElement, createRef, useState } from "react";
-import { Link, redirect, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import Button from "../components/Button";
 import { startConversation } from "../model/conversations";
 import { useClient } from "../hooks/useClient";
 
@@ -16,8 +14,6 @@ export default function NewConversationView(): ReactElement {
 
   const [error, setError] = useState<string | undefined>();
   const [addresses, setAddresses] = useState<string[]>([]);
-
-  const navigate = useNavigate();
 
   function validateAddress(): string | undefined {
     const address = addressInputRef.current?.value || "";
@@ -44,7 +40,6 @@ export default function NewConversationView(): ReactElement {
 
     try {
       const conversation = await startConversation(client, address);
-      navigate(`/c/${conversation.topic}`);
     } catch (e) {
       setError(String(e));
     }
@@ -67,9 +62,6 @@ export default function NewConversationView(): ReactElement {
       <Header>
         <div className="flex justify-between">
           <h1>Make a new conversation</h1>
-          <Link className="text-blue-600" href="/">
-            Go Back
-          </Link>
         </div>
       </Header>
       <div>
@@ -94,7 +86,12 @@ export default function NewConversationView(): ReactElement {
             ></input>
           </label>
           <label className="block space-x-4">
-            <Button type="submit">Start Conversation</Button>
+            <button
+              className="bg-primary-100  text-xs p-2 rounded"
+              type="submit"
+            >
+              Start Conversation
+            </button>
           </label>
         </form>
       </div>

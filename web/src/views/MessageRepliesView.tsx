@@ -3,7 +3,7 @@ import { Message } from "../model/db";
 import { useReplies } from "../hooks/useReplies";
 import ReplyComposer from "./ReplyComposer";
 import { MessageContent } from "./MessageCellView";
-import { shortAddress } from "../util/shortAddress";
+import { shortAddress } from "../utils/shortAddress";
 
 export default function MessageRepliesView({
   message,

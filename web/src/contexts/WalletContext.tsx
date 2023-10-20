@@ -36,7 +36,7 @@ function WalletSetter({
         })();
       }
     }
-  }, [!!signer, web3Provider, chainId]);
+  }, [signer, web3Provider, chainId]);
 
   return <>{children}</>;
 }

@@ -29,7 +29,7 @@ export function useConversations(client: XMTP.Client | null): Conversation[] {
         })();
       }
     })();
-  }, []);
+  }, [client]);
 
   useEffect(() => {
     (async () => {
