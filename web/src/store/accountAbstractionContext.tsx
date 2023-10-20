@@ -26,8 +26,6 @@ import Chain from "../models/chain";
 import getChain from "../utils/getChain";
 import getMoneriumInfo, { MoneriumInfo } from "../utils/getMoneriumInfo";
 import isMoneriumRedirect from "../utils/isMoneriumRedirect";
-import { setMaxListeners } from "events";
-import { selectClasses } from "@mui/material";
 
 type accountAbstractionContextValue = {
   ownerAddress?: string;

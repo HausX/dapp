@@ -1,17 +1,15 @@
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Link from "@mui/material/Link";
-
-import introVideo from "../../assets/intro-chip.webm";
-import introImage from "../..//assets/intro-chip.png";
+import Image from "next/image";
 
 const SafeCoreInfo = () => {
   return (
     <div>
       {/* video loop */}
       <video autoPlay loop muted height="500px" width="500px">
-        <source src={introVideo} />
-        <img src={introImage} alt="safe core img" />
+        <source src={"/assets/intro-chip.webm"} />
+        <Image src={"/assets/intro-chip.png"} alt="safe core img" />
       </video>
 
       {/* Links */}

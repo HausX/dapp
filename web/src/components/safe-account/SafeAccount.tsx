@@ -1,4 +1,3 @@
-import Typography from "@mui/material/Typography";
 import SafeInfo from "../../components/safe-info/SafeInfo";
 import { BoxProps } from "@mui/material/Box";
 

@@ -69,9 +69,9 @@ function SafeInfo({ safeAddress, chainId }: SafeInfoProps) {
                 : "/assets/safe-info-logo-light.svg"
             }
             alt="connected Safe account logo"
-            width={10}
-            height={10}
-            className="h-7 w-auto"
+            height={30}
+            width={30}
+            className=""
           />
         )}
 

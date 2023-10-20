@@ -2,7 +2,6 @@ import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 import SendIcon from "@mui/icons-material/SendRounded";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
 import LinearProgress from "@mui/material/LinearProgress";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
@@ -14,7 +13,6 @@ import AddressLabel from "../components/address-label/AddressLabel";
 import AuthenticateMessage from "../components/authenticate-message/AuthenticateMessage";
 import GelatoTaskStatusLabel from "../components/gelato-task-status-label/GelatoTaskStatusLabel";
 import SafeAccount from "../components/safe-account/SafeAccount";
-import { ConnectedContainer } from "../components/styles";
 import { useAccountAbstraction } from "../store/accountAbstractionContext";
 import { GELATO_SNIPPET } from "../utils/snippets";
 
@@ -54,14 +52,7 @@ const RelayerKitDemo = () => {
       ) : (
         <Box display="flex" gap={3}>
           {/* Relay Transaction */}
-          <ConnectedContainer
-            display="flex"
-            flex={2}
-            flexDirection="column"
-            gap={2}
-            alignItems="flex-start"
-            flexShrink={0}
-          >
+          <div className="flex col items-start gap-2">
             <Typography fontWeight="700">Relayed transaction</Typography>
 
             {/* Gelato status label */}
@@ -130,7 +121,7 @@ const RelayerKitDemo = () => {
                 </Stack>
               )}
             </Stack>
-          </ConnectedContainer>
+          </div>
         </Box>
       )}
     </>
