@@ -9,7 +9,7 @@ const SafeCoreInfo = () => {
       {/* video loop */}
       <video autoPlay loop muted height="500px" width="500px">
         <source src={"/assets/intro-chip.webm"} />
-        <Image src={"/assets/intro-chip.png"} alt="safe core img" />
+        <Image src={"/assets/intro-chip.png"} alt="safe core image" />
       </video>
 
       {/* Links */}

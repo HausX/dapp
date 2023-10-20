@@ -57,7 +57,7 @@ await web3AuthModalPack.signOut()
 
 // Get the provider
 web3AuthModalPack.getProvider()
-`
+`;
 
 export const STRIPE_SNIPPET = `import { StripePack } from '@safe-global/onramp-kit'
 
@@ -91,55 +91,7 @@ stripePack.subscribe('onramp_ui_loaded', () => {
 stripePack.subscribe('onramp_session_updated', (e) => {
   console.log('Session Updated', e.payload)
 })
-`
-
-export const MONERIUM_SNIPPET = `import { MoneriumPack } from '@safe-global/onramp-kit'
-import Safe, { EthersAdapter } from '@safe-global/protocol-kit'
-import { OrderState } from '@monerium/sdk'
-
-const safeOwner = web3Provider.getSigner()
-const ethAdapter = new EthersAdapter({ ethers, signerOrProvider: safeOwner })
-
-const safeSdk = await Safe.create({
-  ethAdapter: ethAdapter,
-  safeAddress: safeSelected,
-  isL1SafeMasterCopy: true
-})
-
-const moneriumPack = new MoneriumPack({
-  clientId: process.env.REACT_APP_MONERIUM_CLIENT_ID || '',
-  environment: 'sandbox'
-})
-
-await moneriumPack.init({
-  safeSdk
-})
-
-const moneriumClient = await moneriumPack.open({
-  redirectUrl: 'http://localhost:3000',
-  authCode,
-  refreshToken
-})
-
-const authContext = await moneriumClient.getAuthContext()
-const profile = await moneriumClient.getProfile(authContext.defaultProfile)
-const balances = await moneriumClient.getBalances()
-const orders = await moneriumClient.getOrders()
-
-if (moneriumClient.bearerProfile) {
-  localStorage.setItem(MONERIUM_TOKEN, moneriumClient.bearerProfile.refresh_token)
-}
-
-moneriumPack.subscribe(OrderState.pending, (notification) => {
-  console.log(notification.meta.state)
-})
-
-moneriumPack.subscribe(OrderState.placed, (notification) => {
-  console.log(notification.meta.state)
-})
-
-moneriumPack.close()
-`
+`;
 
 export const GELATO_SNIPPET = `import { GelatoRelayPack } from '@safe-global/relay-kit'
 
@@ -149,4 +101,4 @@ relayPack.relayTransaction({
   target: '0x...', // the Safe address
   encodedTransaction: '0x...', // Encoded Safe transaction data
   chainId: 5
-})`
+})`;

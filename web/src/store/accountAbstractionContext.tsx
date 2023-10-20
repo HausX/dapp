@@ -12,7 +12,7 @@ import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 
 import AccountAbstraction from "@safe-global/account-abstraction-kit-poc";
 import { Web3AuthModalPack } from "@safe-global/auth-kit";
-import { MoneriumPack, StripePack } from "@safe-global/onramp-kit";
+import { StripePack } from "@safe-global/onramp-kit";
 import { GelatoRelayPack } from "@safe-global/relay-kit";
 import Safe, { EthersAdapter } from "@safe-global/protocol-kit";
 import {
@@ -24,8 +24,6 @@ import { initialChain } from "../chains/chains";
 import usePolling from "../hooks/usePolling";
 import Chain from "../models/chain";
 import getChain from "../utils/getChain";
-import getMoneriumInfo, { MoneriumInfo } from "../utils/getMoneriumInfo";
-import isMoneriumRedirect from "../utils/isMoneriumRedirect";
 
 type accountAbstractionContextValue = {
   ownerAddress?: string;
@@ -45,9 +43,6 @@ type accountAbstractionContextValue = {
   gelatoTaskId?: string;
   openStripeWidget: () => Promise<void>;
   closeStripeWidget: () => Promise<void>;
-  startMoneriumFlow: () => Promise<void>;
-  closeMoneriumFlow: () => void;
-  moneriumInfo?: MoneriumInfo;
 };
 
 const initialState = {
@@ -63,8 +58,6 @@ const initialState = {
   isRelayerLoading: true,
   openStripeWidget: async () => {},
   closeStripeWidget: async () => {},
-  startMoneriumFlow: async () => {},
-  closeMoneriumFlow: () => {},
 };
 
 const accountAbstractionContext =
@@ -82,8 +75,6 @@ const useAccountAbstraction = () => {
   return context;
 };
 
-const MONERIUM_TOKEN = "monerium_token";
-
 const AccountAbstractionProvider = ({
   children,
 }: {
@@ -98,10 +89,6 @@ const AccountAbstractionProvider = ({
 
   // chain selected
   const [chainId, setChainId] = useState<string>(() => {
-    if (isMoneriumRedirect()) {
-      return "0x5";
-    }
-
     return initialChain.id;
   });
 
@@ -219,13 +206,10 @@ const AccountAbstractionProvider = ({
     setWeb3Provider(undefined);
     setSafeSelected("");
     setGelatoTaskId(undefined);
-    closeMoneriumFlow();
   };
 
   // current safe selected by the user
   const [safeSelected, setSafeSelected] = useState<string>("");
-  const [moneriumInfo, setMoneriumInfo] = useState<MoneriumInfo>();
-  const [moneriumPack, setMoneriumPack] = useState<MoneriumPack>();
 
   // Initialize MoneriumPack
   useEffect(() => {
@@ -244,65 +228,8 @@ const AccountAbstractionProvider = ({
         safeAddress: "0x41675C099F32341bf84BFc5382aF534df5C7461a",
         isL1SafeMasterCopy: true,
       });
-
-      const pack = new MoneriumPack({
-        clientId: process.env.REACT_APP_MONERIUM_CLIENT_ID || "",
-        environment: "sandbox",
-      });
-
-      await pack.init({
-        safeSdk,
-      });
-
-      setMoneriumPack(pack);
     })();
   }, [web3Provider, safeSelected]);
-
-  const startMoneriumFlow = useCallback(
-    async (authCode?: string, refreshToken?: string) => {
-      if (!moneriumPack) return;
-
-      const moneriumClient: any = await moneriumPack.open({
-        redirectUrl: process.env.REACT_APP_MONERIUM_REDIRECT_URL,
-        authCode,
-        refreshToken,
-      });
-
-      if (moneriumClient.bearerProfile) {
-        localStorage.setItem(
-          MONERIUM_TOKEN,
-          moneriumClient.bearerProfile.refresh_token
-        );
-
-        const authContext = await moneriumClient.getAuthContext();
-        const profile = await moneriumClient.getProfile(
-          authContext.defaultProfile
-        );
-        const balances = await moneriumClient.getBalances(
-          authContext.defaultProfile
-        );
-
-        setMoneriumInfo(
-          getMoneriumInfo(safeSelected, authContext, profile, balances)
-        );
-      }
-    },
-    [moneriumPack, safeSelected]
-  );
-
-  const closeMoneriumFlow = useCallback(() => {
-    moneriumPack?.close();
-    localStorage.removeItem(MONERIUM_TOKEN);
-    setMoneriumInfo(undefined);
-  }, [moneriumPack]);
-
-  useEffect(() => {
-    const authCode =
-      new URLSearchParams(window.location.search).get("code") || undefined;
-    const refreshToken = localStorage.getItem(MONERIUM_TOKEN) || undefined;
-
-    if (authCode || refreshToken) startMoneriumFlow(authCode, refreshToken);
-  }, [startMoneriumFlow]);
 
   // TODO: add disconnect owner wallet logic ?
 
@@ -449,10 +376,6 @@ const AccountAbstractionProvider = ({
 
     openStripeWidget,
     closeStripeWidget,
-
-    startMoneriumFlow,
-    closeMoneriumFlow,
-    moneriumInfo,
   };
 
   return (

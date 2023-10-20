@@ -11,6 +11,7 @@ import ChainLabel from "../../components/chain-label/ChainLabel";
 import safeHeaderLogo from "../../assets/safe-header-logo.svg";
 import { useTheme } from "../../store/themeContext";
 import { useAccountAbstraction } from "../../store/accountAbstractionContext";
+import Image from "next/image";
 
 type HeaderProps = {
   setStep: (newStep: number) => void;
@@ -26,7 +27,7 @@ function Header({ setStep }: HeaderProps) {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* App Logo */}
-          <img
+          <Image
             style={{ cursor: "pointer" }}
             onClick={() => setStep(0)} // go to Home
             id="app-logo-header"
