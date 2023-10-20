@@ -1,4 +1,4 @@
-import CreateEvent from "@/components/event-factory/CreateEvent";
+import CreateEvent from "@/components/event-factory";
 import Layout from "@/components/Layout";
 import { StepperNav } from "@/components/StepperNav";
 import { Separator } from "@/components/ui/separator";
