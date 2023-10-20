@@ -1,4 +1,4 @@
-import Chain from "../models/chain";
+import Chain from "../model/chain";
 
 export const gnosisChain: Chain = {
   id: "0x64",

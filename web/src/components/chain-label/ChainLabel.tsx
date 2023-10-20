@@ -1,6 +1,6 @@
 import { styled } from "@mui/material/styles";
 
-import Chain from "../../models/chain";
+import Chain from "../../model/chain";
 
 type ChainLabelProps = {
   chain: Chain;
