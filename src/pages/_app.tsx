@@ -6,7 +6,7 @@ import {
   studioProvider,
 } from "@livepeer/react";
 import * as React from "react";
-import "@app/styles/globals.css";
+import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import {
@@ -25,6 +25,7 @@ import Providers from "../components/providers/Providers";
 import SafeCoreInfo from "../components/safe-core-info/SafeCoreInfo";
 import { useAccountAbstraction } from "../store/accountAbstractionContext";
 import isMoneriumRedirect from "../utils/isMoneriumRedirect";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const livepeerClient = createReactClient({
   provider: studioProvider({
@@ -76,7 +77,14 @@ export default function App({ Component, pageProps }: AppProps) {
             </RainbowKitProvider>
           </WagmiConfig> */}
           <Providers>
-            <Component {...pageProps} />
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Component {...pageProps} />
+            </ThemeProvider>
           </Providers>
         </LivepeerConfig>
       ) : null}
