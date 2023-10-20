@@ -3,34 +3,18 @@ import makeBlockie from 'ethereum-blockies-base64'
 import type { CSSProperties, ReactElement } from 'react'
 import { useMemo } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { cn } from '@/lib/utils'
 
 export interface IdenticonProps {
-	username: string
-	size?: number
-	radius?: number
+	classNames: string;
+	username: string;
 }
 
-const Identicon = ({ username, radius, size = 40 }: IdenticonProps): ReactElement => {
-	const style = useMemo<CSSProperties | null>(() => {
-		try {
-			return {
-				width: `${size}px`,
-				height: `${size}px`,
-				borderRadius: `${radius}px`
-			}
-		} catch (e) {
-			return null
-		}
-	}, [size, radius])
-
-	return !style ? (
-		<Skeleton variant="circular" width={size} height={size} />
-	) : (
-		<Avatar>
-			<AvatarImage style={style} src={makeBlockie(username)} alt={username} />
-			<AvatarFallback>{username}</AvatarFallback>
-		</Avatar>
-	)
-}
+const Identicon = ({ classNames, username }: IdenticonProps): ReactElement => (
+	<Avatar className={cn(classNames)}>
+		<AvatarImage src={makeBlockie(username)} alt={username} />
+		<AvatarFallback>{username}</AvatarFallback>
+	</Avatar>
+)
 
 export default Identicon

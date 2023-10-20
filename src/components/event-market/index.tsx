@@ -7,7 +7,7 @@ export const EventMarket = () => {
 		<div className="flex flex-col space-y-6">
 			{STREAM_LABELS.map((label, idx) => (
 				<div key={idx} className="space-y-4">
-					<h2 className="font-bold capitalize">{label.title}</h2>
+					<h2 className="text-xl font-bold capitalize">{label.title}</h2>
 					<div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3">
 						{STREAMS.filter(stream => stream.category === label.title).map((stream, idx) => (
 							<StreamCard key={idx} {...stream} />
