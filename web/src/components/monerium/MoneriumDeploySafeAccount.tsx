@@ -17,7 +17,7 @@ function MoneriumDeploySafeAccount({ isSafeDeployed, onDeploy }: MoneriumDeployS
 
   return (
     <Typography fontSize="14px" marginTop="16px" marginBottom="32px">
-      The Safe Account is not deployed yet. To use "Login with Monerium", deploy the Safe first by
+      The Safe Account is not deployed yet. To use Login with Monerium, deploy the Safe first by
       sending your first transaction using the{' '}
       <Link href="#" onClick={onDeploy}>
         Relay Kit

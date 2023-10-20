@@ -1,12 +1,8 @@
 import Layout from "../components/Layout";
 import { useState } from "react";
-<<<<<<< HEAD:web/src/pages/event-room.tsx
 import Video from "@app/components/Video";
-
-=======
 import { useAccountAbstraction } from "../store/accountAbstractionContext";
 import RelayerKitDemo from "@/components/RelayerKit";
->>>>>>> 37a8f74e12dd7ea5f414b2ede78630b70b35f5f3:src/pages/event-room.tsx
 interface ChatMessage {
   user: string;
   message: string;
@@ -32,18 +28,6 @@ const ChatBox: React.FC<ChatBoxProps> = ({ messages, onSendMessage }) => {
     }
   };
 
-<<<<<<< HEAD:web/src/pages/event-room.tsx
-
-  return (
-    <div className="h-64 bg-zinc-800 rounded-lg shadow p-4 mb-8">
-      <div className="overflow-y-auto h-full">
-        {messages.map((msg, index) => (
-          <div key={index} className="flex flex-col mb-2">
-            <span className="text-gray-600 font-bold">{msg.user}</span>
-            <span className="text-gray-800">{msg.message}</span>
-          </div>
-        ))}
-=======
   if (web3Provider)
     return (
       <div className="h-64 bg-zinc-800 rounded-lg shadow p-4 mb-8">
@@ -75,7 +59,6 @@ const ChatBox: React.FC<ChatBoxProps> = ({ messages, onSendMessage }) => {
             Send
           </button>
         </div>
->>>>>>> 37a8f74e12dd7ea5f414b2ede78630b70b35f5f3:src/pages/event-room.tsx
       </div>
     );
 };
