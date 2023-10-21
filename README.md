@@ -6,7 +6,7 @@ LIGHTHOUSE_API_KEY=<key>
 ```
 
 To get this key, use the lighthouse cli (docs: https://docs.lighthouse.storage/lighthouse-1/)
-
+Then install lighthouse-web3 globally to run the commands below 
 ```
 lighthouse-web3 create-wallet    
 ```
@@ -86,5 +86,4 @@ I would deploy this using a docker VM. Digital Ocean has them for cheap and then
 
 # Future work
 
-- Delete the docker folder, not sure we need it but it was always there so I just kept it. 
 - Add security and potentially ownership and encryption to ipfs storage from the onset (not needed for proof-of-concept imo)
