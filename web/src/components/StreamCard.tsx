@@ -27,9 +27,9 @@ export const StreamCard = ({
 						{description}
 					</CardDescription>
 				</div>
-				<div className="flex space-x-3 items-center">
-					<Identicon username={username} />
-					<p className="font-semibold">@{username}</p>
+				<div className="flex space-x-2 items-center">
+					<Identicon username={username} size={28} />
+					<p className="font-semibold text-muted-foreground">{username}</p>
 				</div>
 			</CardHeader>
 			<CardContent className="space-y-6">

@@ -15,6 +15,7 @@ import { buttonVariants } from "./ui/button";
 import { ModeToggle } from "./DarkModeToggle";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "./ui/navigation-menu";
 
 const navigation = [
   { name: "Create Event", href: "/streams/create" },
@@ -68,21 +69,29 @@ export default function Layout({ children }: Props) {
                       </Link>
                       <div className="hidden lg:ml-10 lg:block">
                         <div className="flex space-x-4">
-                          {navigation.map((item) => (
-                            <Link
-                              key={item.name}
-                              href={item.href}
-                              className={cn(
-                                buttonVariants({ variant: "ghost" }),
-                                item.href === router.pathname
-                                  ? "bg-muted hover:bg-muted"
-                                  : "hover:bg-transparent hover:underline",
-                                "justify-start"
-                              )}
-                            >
-                              {item.name}
-                            </Link>
-                          ))}
+                          <NavigationMenu>
+                            <NavigationMenuList>
+                              {navigation.map((item) => (
+                                <NavigationMenuItem key={item.name}>
+                                  <Link
+                                    href={item.href}
+                                    legacyBehavior
+                                    passHref
+                                  >
+                                    <NavigationMenuLink className={cn(
+                                      buttonVariants({ variant: "ghost" }),
+                                      item.href === router.pathname
+                                        ? "bg-muted hover:bg-muted"
+                                        : "hover:bg-transparent hover:underline",
+                                      "justify-start"
+                                    )}>
+                                      {item.name}
+                                    </NavigationMenuLink>
+                                  </Link>
+                                </NavigationMenuItem>
+                              ))}
+                            </NavigationMenuList>
+                          </NavigationMenu>
                         </div>
                       </div>
                     </div>

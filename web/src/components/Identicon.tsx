@@ -26,8 +26,8 @@ const Identicon = ({ username, radius, size = 40 }: IdenticonProps): ReactElemen
 	return !style ? (
 		<Skeleton variant="circular" width={size} height={size} />
 	) : (
-		<Avatar>
-			<AvatarImage style={style} src={makeBlockie(username)} alt={username} />
+		<Avatar style={style}>
+			<AvatarImage src={makeBlockie(username)} alt={username} />
 			<AvatarFallback>{username}</AvatarFallback>
 		</Avatar>
 	)
