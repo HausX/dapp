@@ -32,7 +32,7 @@ export default function CreateStream() {
 		setStep(step - 1);
 	};
 	return <Layout>
-		<div className="hidden space-y-6 mt-24 px-24 md:block w-full min-h-screen">
+		<div className="space-y-6 mt-24 px-24 md:block w-full min-h-screen">
 			<div className="space-y-0.5">
 				<h2 className="text-2xl font-bold tracking-tight">Event Factory</h2>
 				<p className="text-muted-foreground">

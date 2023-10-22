@@ -1,0 +1,7 @@
+export enum ContractAddress {
+	EventFactory = '0x861cd02B0c0043107C6b4DA92B0C2C9d2e0D4aFC',
+	TicketFactory = '0x499641755BA01939A7bA1F8b9b239FFC1EBAB503',
+	LiveTipping = '0x2b54E6F4c67dD32D84Fd3d3E314a7AB50bE1446d',
+	Distributor = '0xfB0A6b925d503D0a2c3Dc9890D77AdF1767eE3F6',
+	StreamStorage = '0xbe2914199fa40bc4a66e8a69d77ad778a84fab2f',
+}

@@ -26,6 +26,8 @@ import { CalendarIcon } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useCallback, useState } from 'react';
 import { StepperNavProps } from '../StepperNav';
+import { CreateEventArgs } from '@/types/create-event.type';
+import { parseEther } from 'viem';
 
 const eventFormSchema = z.object({
 	title: z.string().min(2, {
@@ -107,11 +109,19 @@ const CreateEvent = ({ onNextStep, onPreviousStep, currentStep }: StepperNavProp
 
 	const onSubmit = (values: z.infer<typeof eventFormSchema>) => {
 		console.log({ values });
+		const event: CreateEventArgs = {
+			startTimeDelta: new Date(values.date).getTime(),
+			baseTip: values.reserve_price ? BigInt(parseEther(values.reserve_price.toString() || '0')) : values.custom_reserve_price ? BigInt(parseEther(values.custom_reserve_price.toString() || '0')) : BigInt(parseEther('0')),
+			maxTickets: values.ticket_amount ? +values.ticket_amount : values.no_cap ? 1000 : 0,
+			ticketPrice: values.ticket_price ? parseEther('0.01') : values.custom_ticket_price ? BigInt(parseEther(values.custom_ticket_price.toString() || '0')) : BigInt(parseEther('0')),
+			curatorCut: values.reserve_price ? BigInt(parseEther(values.reserve_price.toString() || '0')) : values.custom_reserve_price ? BigInt(parseEther(values.custom_reserve_price.toString() || '0')) : BigInt(parseEther('0')),
+			metadata: ''
+		}
 	};
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="container mx-auto">
+			<form onSubmit={form.handleSubmit(onSubmit)}>
 				{currentStep === 1 && (
 					<div className="w-full space-y-6">
 						{/* Event Details */}

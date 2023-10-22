@@ -1,4 +1,4 @@
-import { Stream } from './types';
+import { Stream } from '@/types/stream.type';
 
 const getRandomDate = () => {
 	const currentDate = new Date();
