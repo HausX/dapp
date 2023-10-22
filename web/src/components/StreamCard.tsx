@@ -5,9 +5,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card"
-import { Stream } from "./event-market/types"
 import { Badge } from "./ui/badge"
 import Identicon from "./Identicon"
+import { Stream } from "@/types/stream.type"
 
 export const StreamCard = ({
 	category,

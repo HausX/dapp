@@ -1,4 +1,4 @@
-export interface Stream {
+export type Stream = {
 	category: string;
 	title: string;
 	description: string;
@@ -6,4 +6,4 @@ export interface Stream {
 	date: Date;
 	ranking: string;
 	username: string;
-}
+};

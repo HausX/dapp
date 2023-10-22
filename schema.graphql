@@ -1,0 +1,105 @@
+type Event @entity {
+	id: ID!
+	creator: Creator
+	startTime: BigInt
+	owner: User
+	metadata: String
+	pieceCid: String
+	streamURI: String
+	maxTickets: BigInt
+	currentSold: BigInt!
+	ticketPrice: BigInt
+	tickets: [Ticket!] @derivedFrom(field: "event")
+	baseTip: BigInt
+	curatorCut: BigInt
+	curator: Curator
+	tips: [Tip!] @derivedFrom(field: "eventId")
+	highestTipper: User
+	highestTip: BigInt
+}
+
+type Ticket @entity {
+	id: ID!
+	event: Event!
+	owner: User!
+}
+
+type Tip @entity(immutable: true) {
+	id: ID!
+	eventId: Event!
+	tipper: User!
+	amount: BigInt!
+}
+
+type Creator @entity {
+	id: ID!
+	creator: Bytes!
+	events: [Event!] @derivedFrom(field: "creator")
+	income: BigInt!
+}
+
+type Curator @entity {
+	id: ID!
+	curator: Bytes!
+	events: [Event!] @derivedFrom(field: "curator")
+	income: BigInt!
+}
+
+type User @entity {
+	id: ID!
+	user: Bytes!
+	tickets: [Ticket!] @derivedFrom(field: "owner")
+	tips: [Tip!] @derivedFrom(field: "tipper")
+	nfts: [Event!] @derivedFrom(field: "owner")
+}
+type LiveTippingCreated @entity(immutable: true) {
+	id: Bytes!
+	eventId: BigInt! # uint256
+	startTime: BigInt! # uint256
+	baseTip: BigInt! # uint256
+	curatorCut: BigInt! # uint256
+	blockNumber: BigInt!
+	blockTimestamp: BigInt!
+	transactionHash: Bytes!
+}
+
+type LiveTippingOwnershipTransferred @entity(immutable: true) {
+	id: Bytes!
+	previousOwner: Bytes! # address
+	newOwner: Bytes! # address
+	blockNumber: BigInt!
+	blockTimestamp: BigInt!
+	transactionHash: Bytes!
+}
+
+type Tipped @entity(immutable: true) {
+	id: Bytes!
+	eventId: BigInt! # uint256
+	tipper: Bytes! # address
+	amount: BigInt! # uint256
+	isHighestTip: Boolean! # bool
+	blockNumber: BigInt!
+	blockTimestamp: BigInt!
+	transactionHash: Bytes!
+}
+type FundsDistributed @entity(immutable: true) {
+	id: Bytes!
+	eventId: BigInt! # uint256
+	creator: Bytes! # address
+	creatorAmount: BigInt! # uint256
+	curator: Bytes! # address
+	curatorAmount: BigInt! # uint256
+	daoAmount: BigInt! # uint256
+	blockNumber: BigInt!
+	blockTimestamp: BigInt!
+	transactionHash: Bytes!
+}
+
+type DistributorOwnershipTransferred @entity(immutable: true) {
+	id: Bytes!
+	previousOwner: Bytes! # address
+	newOwner: Bytes! # address
+	blockNumber: BigInt!
+	blockTimestamp: BigInt!
+	transactionHash: Bytes!
+}
